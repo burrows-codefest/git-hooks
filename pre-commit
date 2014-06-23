@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+'use strict';
+
+var spawnCommand = require('child_process').exec;
+
+spawnCommand('git symbolic-ref HEAD', function (error, stdout) {
+    if(stdout.trim() === 'refs/heads/master' || stdout.trim() === 'refs/heads/development') {
+    	spawnCommand('git status', function (error, stdout) {
+    		console.log('You cannot commit to branch master or develop!')
+    		process.exit(1);
+    	});
+    }
+});
