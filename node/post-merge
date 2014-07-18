@@ -1,0 +1,23 @@
+#!/usr/bin/env node
+'use strict';
+
+var spawnCommand = require('child_process').exec,
+	subject = 'is a rockstar!',
+	body = 'Alert the paps. `git config user.name` is in the building!';
+
+spawnCommand('git reflog -1', function (error, stdout) {
+    if(stdout.indexOf('pull') !== -1) { 
+    		process.exit(1);
+    }
+
+    spawnCommand('git symbolic-ref HEAD', function (error, stdout) {
+        if(stdout.trim() === 'refs/heads/master' || stdout.trim() === 'refs/heads/development') {
+            spawnCommand('"' + body + '" | mail -s "' + subject + '" developers@burrows.yr.com', function () {
+                console.log('######## ALERT ########## YOU SUBMITTED TO DEVELOPMENT !!!!!!!!!!!!!!!!');
+                process.exit(1);
+            })
+        }
+    });
+});
+
+
