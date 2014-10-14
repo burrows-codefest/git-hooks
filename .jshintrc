@@ -70,7 +70,6 @@
     "white": true,
 
     "predef": [
-        "expect", "define", "describe", "it", "sinon", "puremvc", "bmc", "beforeEach", "burrows", "afterEach", "after","XDomainRequest",
-        "Facade", "jQuery", "before", "after", "_", "escape", "unescape", "BTesting", "urlExtractor", "MOBILE_DOM", "requirejs"
+        "require, process"
     ]
 }
