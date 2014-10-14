@@ -1,30 +1,32 @@
 #!/usr/bin/env node
+
 'use strict';
 
 var spawn = require('child_process').spawn,
-	fs = require('fs'),
-	gruntTest,
-	commitMessagePath = fs.readFile(process.argv[2], {encoding: 'utf-8'}, function(err, commitMessage) {
-		if(commitMessage.indexOf('DNT:') === -1) {
-			gruntTest = spawn('grunt', ['test']);
+    fs = require('fs'),
+    gruntTest;
 
-			gruntTest.stdout.setEncoding('utf8');
+    fs.readFile(process.argv[2], {encoding: 'utf-8'}, function (err, commitMessage) {
+      if (commitMessage.indexOf('DNT:') === -1) {
+        gruntTest = spawn('grunt', ['test']);
 
-			gruntTest.stdout.on('data', function (data) {
-				console.log(data);
-			});
+        gruntTest.stdout.setEncoding('utf8');
 
-			gruntTest.on('close', function (code) {
-				if(code !== 0) {
-					console.log('Tests failed - commit aborted');
-					process.exit(code);
-				} else {
-					process.exit(0);
-				}				
-			});
-		} else {
-			console.log('DO NOT TEST COMMIT')
-			process.exit(0);
-		}
-		
-	});
+        gruntTest.stdout.on('data', function (data) {
+          console.log(data);
+        });
+
+        gruntTest.on('close', function (code) {
+          if (code !== 0) {
+            console.log('Tests failed - commit aborted');
+            process.exit(code);
+          } else {
+            process.exit(0);
+          }
+        });
+      } else {
+        console.log('DO NOT TEST COMMIT');
+        process.exit(0);
+      }
+
+    });

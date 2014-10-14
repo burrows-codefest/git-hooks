@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 'use strict';
 
 var spawnCommand = require('child_process').exec,
@@ -15,7 +16,7 @@ spawnCommand('git reflog -1', function (error, stdout) {
             spawnCommand('"' + body + '" | mail -s "' + subject + '" developers@burrows.yr.com', function () {
                 console.log('######## ALERT ########## YOU SUBMITTED TO DEVELOPMENT !!!!!!!!!!!!!!!!');
                 process.exit(1);
-            })
+            });
         }
     });
 });
