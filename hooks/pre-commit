@@ -1,0 +1,22 @@
+#!/bin/sh
+
+SCRIPTNAME=$(basename $0)
+
+RESTRICTED=(
+    'refs/heads/master'
+    'refs/heads/development'
+    'refs/heads/develop'
+    );
+
+CURRENTBRANCH=$(git symbolic-ref HEAD)
+
+for i in ${RESTRICTED}
+do
+    if [[ ${CURRENTBRANCH} == ${i} ]]
+    then
+        echo ${SCRIPTNAME}: ${i} is restricted!
+        echo You cannot commit to the master or develop branch!
+        echo please change to a new branch and create a pull request.
+        exit 1
+    fi
+done
