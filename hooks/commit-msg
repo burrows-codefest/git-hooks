@@ -1,0 +1,24 @@
+#!/bin/sh
+
+COMMITMSG=$(cat $1)
+NPMPATH=/usr/local/bin
+
+if [[ $PATH != *$NPMPATH* ]]
+then
+	PATH=$NPMPATH:$PATH
+fi
+
+if [[ $COMMITMSG != DNT:* ]]
+then
+    if grunt test;
+    then
+     echo tests passed
+     exit 0
+    fi
+else
+    echo tests skipped
+    exit 0
+fi
+
+echo tests failed
+exit 1

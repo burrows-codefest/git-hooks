@@ -1,0 +1,31 @@
+#!/bin/sh
+
+RESTRICTED=(
+    'refs/heads/master'
+    'refs/heads/development'
+    'refs/heads/develop'
+    );
+
+CURRENTBRANCH=$(git symbolic-ref HEAD)
+
+USER=$(git config user.name)
+
+if [[ $(git reflog -1) == *pull* ]]
+then
+    exit 1
+fi
+
+
+for i in ${RESTRICTED}
+do
+    if [[ ${CURRENTBRANCH} == ${i} ]]
+    then
+        	SUBJECT="${USER} is a rockstar!"
+	        BODY="Alert the paps. ${USER} is in the building!"
+
+          echo "HEY ROCKSTAR!!! YOU MUST WRITE PERFECT CODE FOR IT NOT TO BE REVIEWED"
+          echo "${BODY}" | mail -s "${SUBJECT}" jason.jeffrey@burrows.yr.com
+
+          exit 1
+    fi
+done
